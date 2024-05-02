@@ -1,0 +1,14 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1714507919
+icon.svg::CompressedTexture2D::5016668207998830212::1714487715::1714487731::1::::<><>::
+::res://Scenes/::1714539034
+PlayerExperimentation.tscn::PackedScene::8348385376562914446::1714539034::0::1::::<><>::res://Script/PlayerMovement.gd<>uid://b8754c7ftkswr::::res://SpriteAtlas/DebugTilemap.png<>res://Script/GroundChecker.gd
+GroundChecker.gd::GDScript::-1::1714507953::0::1::::<>Area2D<>::
+::res://Script/::1714539902
+GroundChecker.gd::GDScript::-1::1714510133::0::1::::<>Area2D<>::
+PlayerMovement.gd::GDScript::-1::1714538445::0::1::::<>RigidBody2D<>::
+Observer.gd::GDScript::-1::1714539852::0::1::::<>Node2D<>::
+FOVRenderer.gd::GDScript::-1::1714540129::0::1::::<>MeshInstance2D<>::
+::res://SpriteAtlas/::1714540797
+DebugTilemap.png::CompressedTexture2D::4770586064417742181::1714493064::1714493064::1::::<><>::
+ObserverGradient.png::CompressedTexture2D::3342350796135488015::1714540731::1714540938::1::::<><>::

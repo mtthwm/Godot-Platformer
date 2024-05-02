@@ -1,0 +1,6 @@
+res://Scenes/PlayerExperimentation.tscn
+res://Script/PlayerMovement.gd
+res://Scenes/GroundChecker.gd
+res://Script/GroundChecker.gd
+res://Script/Observer.gd
+res://Script/FOVRenderer.gd
