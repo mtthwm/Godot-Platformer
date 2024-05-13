@@ -5,8 +5,13 @@ extends RigidBody2D
 @export var timeToMaxSpeed: float = 0.1;
 @export var tilesPerJump: int = 3;
 @export var inputMaxFullHoldTime = 0.01;
-@export var groundCheckName: String = "GroundChecker";
+@export var groundCheck: GroundChecker;
+@export var leftWallChecker: GroundChecker;
+@export var rightWallChecker: GroundChecker;
 @export var extraJumps = 1;
+
+var _grapplePoint: Vector2;
+var _grappling: bool = false;
 
 var _maxSpeed;
 var _gravity_magnitude;
@@ -29,11 +34,10 @@ func _ready():
 	_normalForceMagnitude = _weight;  # TODO: MAKE THIS WORK WITH SLANTS
 	_jumpHeight = (tilesPerJump * tilesize);
 	_maxHorizontalForce = _maxSpeed * mass;
-	_groundChecker = find_child(groundCheckName);
 
 func _can_jump ():
 	var canDoubleJump = (_remainingJumps > 0) && Input.is_action_pressed("move_jump");
-	return (_groundChecker.isGrounded || canDoubleJump) && linear_velocity.y >= 0;
+	return (groundCheck.isGrounded || canDoubleJump) && linear_velocity.y >= 0;
 
 func _should_jump ():
 	var justReleased = Input.is_action_just_released("move_jump");
@@ -52,7 +56,7 @@ func _doJump ():
 func _handle_jumping (delta):
 	_timeSincePress += delta;
 	
-	if _groundChecker.isGrounded:
+	if groundCheck.isGrounded:
 		_remainingJumps = extraJumps;
 
 	if Input.is_action_just_pressed("move_jump"):

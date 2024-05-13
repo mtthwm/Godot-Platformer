@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name GroundChecker;
+
 
 var isGrounded: bool;
 

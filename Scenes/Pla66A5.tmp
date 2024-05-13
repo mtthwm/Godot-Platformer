@@ -9,20 +9,19 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vf1f0"]
 friction = 0.5
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hlv31"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_diaun"]
+size = Vector2(16, 16)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_wjtec"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3npsx"]
-size = Vector2(12, 1)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pfw5i"]
+size = Vector2(1, 14)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kupmo"]
-size = Vector2(3, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qckyy"]
+size = Vector2(14, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_52jr2"]
-size = Vector2(3, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmnt5"]
+size = Vector2(1, 13.5)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omcgf"]
 
@@ -88,7 +87,7 @@ leftWallChecker = NodePath("LeftWallChecker")
 rightWallChecker = NodePath("RightWallChecker")
 
 [node name="Collider" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CapsuleShape2D_hlv31")
+shape = SubResource("RectangleShape2D_diaun")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 modulate = Color(0.74902, 0.996078, 0.776471, 1)
@@ -96,27 +95,26 @@ position = Vector2(0, -4.76837e-07)
 scale = Vector2(16, 16)
 texture = SubResource("CanvasTexture_wjtec")
 
+[node name="RightWallChecker" type="Area2D" parent="Player"]
+script = ExtResource("2_thmgb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RightWallChecker"]
+position = Vector2(8.5, 0)
+shape = SubResource("RectangleShape2D_pfw5i")
+
 [node name="GroundChecker" type="Area2D" parent="Player"]
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/GroundChecker"]
 position = Vector2(0, 8.5)
-shape = SubResource("RectangleShape2D_3npsx")
-
-[node name="RightWallChecker" type="Area2D" parent="Player"]
-script = ExtResource("2_thmgb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RightWallChecker"]
-position = Vector2(9.5, 0)
-shape = SubResource("RectangleShape2D_kupmo")
-disabled = true
+shape = SubResource("RectangleShape2D_qckyy")
 
 [node name="LeftWallChecker" type="Area2D" parent="Player"]
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/LeftWallChecker"]
-position = Vector2(-9.5, 0)
-shape = SubResource("RectangleShape2D_52jr2")
+position = Vector2(-8.5, 0.25)
+shape = SubResource("RectangleShape2D_pmnt5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -132,12 +130,15 @@ position = Vector2(133, -117)
 mesh = SubResource("ImmediateMesh_vrnlq")
 texture = ExtResource("5_n5yul")
 script = ExtResource("4_3oj6r")
-resolution = 512
-polygonCollider = NodePath("")
+polygonCollider = NodePath("StaticBody2D/CollisionPolygon2D")
 
-[connection signal="body_entered" from="Player/GroundChecker" to="Player/GroundChecker" method="_on_body_entered"]
-[connection signal="body_exited" from="Player/GroundChecker" to="Player/GroundChecker" method="_on_body_exited"]
-[connection signal="body_entered" from="Player/RightWallChecker" to="Player/RightWallChecker" method="_on_body_entered"]
-[connection signal="body_exited" from="Player/RightWallChecker" to="Player/RightWallChecker" method="_on_body_exited"]
-[connection signal="body_entered" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_on_body_entered"]
-[connection signal="body_exited" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_on_body_exited"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Observer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Observer/StaticBody2D"]
+
+[connection signal="body_entered" from="Player/RightWallChecker" to="Player/RightWallChecker" method="_trigger_entered"]
+[connection signal="body_exited" from="Player/RightWallChecker" to="Player/RightWallChecker" method="_trigger_exited"]
+[connection signal="body_entered" from="Player/GroundChecker" to="Player/GroundChecker" method="_trigger_entered"]
+[connection signal="body_exited" from="Player/GroundChecker" to="Player/GroundChecker" method="_trigger_exited"]
+[connection signal="body_entered" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_trigger_entered"]
+[connection signal="body_exited" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_trigger_exited"]

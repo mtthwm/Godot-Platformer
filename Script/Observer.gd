@@ -15,7 +15,7 @@ func _generate_mesh ():
 	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES);
 
 	for i in range(_points.size() - 1):
-		mesh.surface_add_vertex(Vector3(global_position.x, global_position.y, 0));
+		mesh.surface_add_vertex(Vector3(0, 0, 0));
 		mesh.surface_add_vertex(Vector3(_points[i].x, _points[i].y, 0));
 		mesh.surface_add_vertex(Vector3(_points[i + 1].x, _points[i + 1].y, 0));
 
@@ -36,6 +36,6 @@ func _calc_FOV (innerAngle: float) -> void:
 		var result = space_state.intersect_ray(query);
 
 		if result:
-			_points.append(result.position);
+			_points.append(result.position - global_position);
 		else:
-			_points.append(globalPoint);
+			_points.append(globalPoint - global_position);
