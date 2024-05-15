@@ -12,6 +12,7 @@ extends RigidBody2D
 
 var _grapplePoint: Vector2;
 var _grappling: bool = false;
+var _grappleDir: Vector2;
 
 var _maxSpeed;
 var _gravity_magnitude;
@@ -73,11 +74,11 @@ func _handle_movement (_delta):
 	var frictional_force_magnitude = _normalForceMagnitude * physics_material_override.friction;
 	var horizontalForce = movement_force_magnitude+ frictional_force_magnitude;
 
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("move_right") && !rightWallChecker.isGrounded:
 		if linear_velocity.x < _maxSpeed:
 			apply_force(Vector2(horizontalForce, 0));
 
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed("move_left") && !leftWallChecker.isGrounded:
 		if linear_velocity.x > -_maxSpeed:
 			apply_force(Vector2(-horizontalForce, 0));
 

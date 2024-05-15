@@ -1,6 +1,3 @@
-res://Scenes/PlayerExperimentation.tscn
 res://Script/Observer.gd
-res://Script/GroundChecker.gd
-res://Script/level-post-import-bake-wall-collision-polygon.gd
-res://Script/FOVRenderer.gd
+res://Scenes/PlayerExperimentation.tscn
 res://Script/PlayerMovement.gd
