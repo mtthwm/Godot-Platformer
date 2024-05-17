@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://dq7axmxbv4wty"]
+[gd_scene load_steps=17 format=3 uid="uid://dq7axmxbv4wty"]
 
 [ext_resource type="Script" path="res://Script/PlayerMovement.gd" id="1_1pn2c"]
 [ext_resource type="Texture2D" uid="uid://b8754c7ftkswr" path="res://SpriteAtlas/DebugTilemap.png" id="2_d8oc8"]
 [ext_resource type="Script" path="res://Script/GroundChecker.gd" id="2_thmgb"]
 [ext_resource type="Script" path="res://Script/Observer.gd" id="4_3oj6r"]
 [ext_resource type="Texture2D" uid="uid://bnvca84fwsjp4" path="res://SpriteAtlas/ObserverGradient.png" id="5_n5yul"]
+[ext_resource type="Texture2D" uid="uid://n2yioeiesti2" path="res://Sprites/Crosshairs.png" id="6_is4is"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vf1f0"]
 friction = 0.5
@@ -19,10 +20,10 @@ height = 16.0
 size = Vector2(12, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kupmo"]
-size = Vector2(1, 10)
+size = Vector2(1, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52jr2"]
-size = Vector2(1, 10)
+size = Vector2(1, 12)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omcgf"]
 
@@ -74,7 +75,7 @@ sources/1 = SubResource("TileSetAtlasSource_kxf2e")
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Player" type="RigidBody2D" parent="." node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker")]
+[node name="Player" type="RigidBody2D" parent="." node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker", "crosshair")]
 position = Vector2(0, -32)
 physics_material_override = SubResource("PhysicsMaterial_vf1f0")
 continuous_cd = 1
@@ -86,6 +87,7 @@ inputMaxFullHoldTime = 0.087
 groundCheck = NodePath("GroundChecker")
 leftWallChecker = NodePath("LeftWallChecker")
 rightWallChecker = NodePath("RightWallChecker")
+crosshair = NodePath("../Crosshair")
 
 [node name="Collider" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_hlv31")
@@ -107,7 +109,7 @@ shape = SubResource("RectangleShape2D_3npsx")
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RightWallChecker"]
-position = Vector2(8.5, 0)
+position = Vector2(9.5, 1)
 shape = SubResource("RectangleShape2D_kupmo")
 disabled = true
 
@@ -115,7 +117,7 @@ disabled = true
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/LeftWallChecker"]
-position = Vector2(-8.5, 0)
+position = Vector2(-9.5, 1)
 shape = SubResource("RectangleShape2D_52jr2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -133,6 +135,10 @@ mesh = SubResource("ImmediateMesh_vrnlq")
 texture = ExtResource("5_n5yul")
 script = ExtResource("4_3oj6r")
 resolution = 512
+
+[node name="Crosshair" type="Sprite2D" parent="."]
+position = Vector2(-72, -89)
+texture = ExtResource("6_is4is")
 
 [connection signal="body_entered" from="Player/GroundChecker" to="Player/GroundChecker" method="_on_body_entered"]
 [connection signal="body_exited" from="Player/GroundChecker" to="Player/GroundChecker" method="_on_body_exited"]
