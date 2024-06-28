@@ -20,6 +20,7 @@ var _grapplePoint: Vector2;
 var _grappling: bool = false;
 var _grappleDir: Vector2;
 var _canGrapple: bool = false;
+var _aiming: bool = false;
 
 var _maxSpeed;
 var _gravity_magnitude;
@@ -106,9 +107,13 @@ func _handle_grappling (_delta):
 
 		crosshair.show();
 		crosshair.set_global_position(_grapplePoint);
+
+		_aiming = true;
 			
 	else:
 		crosshair.hide();
+
+		_aiming = false;
 
 	if Input.is_action_just_pressed("move_grapple") && _canGrapple:
 		_grappling = true;
@@ -124,12 +129,12 @@ func _handle_movement (_delta):
 	var frictional_force_magnitude = _normalForceMagnitude * physics_material_override.friction;
 	var horizontalForce = movement_force_magnitude+ frictional_force_magnitude;
 
-	if !_grappling && Input.is_action_pressed("move_right"):
+	if !_aiming && !_grappling && Input.is_action_pressed("move_right"):
 		if !rightWallChecker.isGrounded:
 			if linear_velocity.x < _maxSpeed:
 				apply_force(Vector2(horizontalForce, 0));
 
-	if !_grappling && Input.is_action_pressed("move_left"):
+	if !_aiming && !_grappling && Input.is_action_pressed("move_left"):
 		if !leftWallChecker.isGrounded:
 			print_debug("LEFT WALL NOT GROUNDED");
 			if linear_velocity.x > -_maxSpeed:
