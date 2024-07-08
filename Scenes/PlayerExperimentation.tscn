@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://dq7axmxbv4wty"]
+[gd_scene load_steps=18 format=3 uid="uid://dq7axmxbv4wty"]
 
 [ext_resource type="Script" path="res://Script/PlayerMovement.gd" id="1_1pn2c"]
 [ext_resource type="Texture2D" uid="uid://b8754c7ftkswr" path="res://SpriteAtlas/DebugTilemap.png" id="2_d8oc8"]
 [ext_resource type="Script" path="res://Script/GroundChecker.gd" id="2_thmgb"]
+[ext_resource type="Script" path="res://Script/CameraFollow.gd" id="3_5q01v"]
 [ext_resource type="Script" path="res://Script/Observer.gd" id="4_3oj6r"]
 [ext_resource type="Texture2D" uid="uid://bnvca84fwsjp4" path="res://SpriteAtlas/ObserverGradient.png" id="5_n5yul"]
 [ext_resource type="Texture2D" uid="uid://n2yioeiesti2" path="res://Sprites/Crosshairs.png" id="6_is4is"]
@@ -131,8 +132,10 @@ script = ExtResource("2_thmgb")
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_3npsx")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("positionToFollow")]
 zoom = Vector2(2, 2)
+script = ExtResource("3_5q01v")
+positionToFollow = NodePath("../Player")
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-8, 0)

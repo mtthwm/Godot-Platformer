@@ -1,2 +1,3 @@
 res://Scenes/PlayerExperimentation.tscn
 res://Script/PlayerMovement.gd
+res://Script/CameraFollow.gd
