@@ -10,7 +10,7 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vf1f0"]
 friction = 0.5
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hlv31"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k7fle"]
 radius = 8.0
 height = 16.0
 
@@ -20,12 +20,13 @@ height = 16.0
 size = Vector2(12, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kupmo"]
-size = Vector2(1, 12)
+size = Vector2(1.5, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52jr2"]
-size = Vector2(1, 12)
+size = Vector2(1.5, 15)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omcgf"]
+friction = 0.5
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kxf2e"]
 texture = ExtResource("2_d8oc8")
@@ -75,7 +76,7 @@ sources/1 = SubResource("TileSetAtlasSource_kxf2e")
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Player" type="RigidBody2D" parent="." node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker", "crosshair")]
+[node name="Player" type="RigidBody2D" parent="." node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker", "ceilingChecker", "crosshair")]
 position = Vector2(0, -32)
 physics_material_override = SubResource("PhysicsMaterial_vf1f0")
 continuous_cd = 1
@@ -83,14 +84,17 @@ lock_rotation = true
 script = ExtResource("1_1pn2c")
 tilesPerSecondSpeed = 5
 timeToMaxSpeed = 0.75
+tilesPerJump = 4
 inputMaxFullHoldTime = 0.087
 groundCheck = NodePath("GroundChecker")
 leftWallChecker = NodePath("LeftWallChecker")
 rightWallChecker = NodePath("RightWallChecker")
+ceilingChecker = NodePath("CeilingChecker")
 crosshair = NodePath("../Crosshair")
+minGrappleTileLength = 4
 
 [node name="Collider" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CapsuleShape2D_hlv31")
+shape = SubResource("CapsuleShape2D_k7fle")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 modulate = Color(0.74902, 0.996078, 0.776471, 1)
@@ -109,7 +113,7 @@ shape = SubResource("RectangleShape2D_3npsx")
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/RightWallChecker"]
-position = Vector2(9.5, 1)
+position = Vector2(9, -0.5)
 shape = SubResource("RectangleShape2D_kupmo")
 disabled = true
 
@@ -117,10 +121,18 @@ disabled = true
 script = ExtResource("2_thmgb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/LeftWallChecker"]
-position = Vector2(-9.5, 1)
+position = Vector2(-9, -0.5)
 shape = SubResource("RectangleShape2D_52jr2")
 
+[node name="CeilingChecker" type="Area2D" parent="Player"]
+script = ExtResource("2_thmgb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CeilingChecker"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_3npsx")
+
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-8, 0)
@@ -146,3 +158,5 @@ texture = ExtResource("6_is4is")
 [connection signal="body_exited" from="Player/RightWallChecker" to="Player/RightWallChecker" method="_on_body_exited"]
 [connection signal="body_entered" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_on_body_entered"]
 [connection signal="body_exited" from="Player/LeftWallChecker" to="Player/LeftWallChecker" method="_on_body_exited"]
+[connection signal="body_entered" from="Player/CeilingChecker" to="Player/CeilingChecker" method="_on_body_entered"]
+[connection signal="body_exited" from="Player/CeilingChecker" to="Player/CeilingChecker" method="_on_body_exited"]
