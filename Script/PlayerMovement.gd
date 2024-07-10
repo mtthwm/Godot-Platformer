@@ -79,16 +79,10 @@ func _handle_jump (delta):
 
 func _handle_grappling (_delta):
 	if Input.is_action_pressed("move_right"):
-		_grappleDir.x = 1;	
+		_grappleDir = Vector2(0.5, -1).normalized()
 
 	if Input.is_action_pressed("move_left"):
-		_grappleDir.x = -1;
-
-	if Input.is_action_pressed("move_up"):
-		_grappleDir.y = -1;
-
-	if Input.is_action_pressed("move_down"):
-		_grappleDir.y = 1;
+		_grappleDir = Vector2(-0.5, -1).normalized()
 
 	if !_grappling:
 		_grappleDir = _grappleDir.normalized();
@@ -142,19 +136,19 @@ func _handle_movement (_delta):
 
 	if Input.is_action_pressed("move_right") && !_locked_movement:
 		if !rightWallChecker.isGrounded:
-			if linear_velocity.x < (_maxSpeed + groundCheck.measuredVelocity.x):
+			if linear_velocity.x < _maxSpeed + groundCheck.measuredVelocity.x:
 				forceToApply.x += horizontalForce;
 
 	elif Input.is_action_pressed("move_left") && !_locked_movement:
 		if !leftWallChecker.isGrounded:
 			if linear_velocity.x > -_maxSpeed + groundCheck.measuredVelocity.x:
 				forceToApply.x -= horizontalForce;
-	else:
-		if groundCheck.isGrounded && groundCheck.measuredVelocity != Vector2(0, 0):
-			linear_velocity = groundCheck.measuredVelocity;
 
 	if forceToApply.length() > 0:
 		apply_force(forceToApply);
+
+	if Input.is_action_just_released("move_right") or Input.is_action_just_released("move_left"):
+		linear_velocity.x = 0;
 
 func _lock_movement (index):
 	_locked_movement |= (1 << index);

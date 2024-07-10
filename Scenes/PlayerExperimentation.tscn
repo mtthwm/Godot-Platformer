@@ -88,7 +88,6 @@ physics_material_override = SubResource("PhysicsMaterial_vf1f0")
 continuous_cd = 1
 lock_rotation = true
 script = ExtResource("1_1pn2c")
-tilesPerSecondSpeed = 5
 timeToMaxSpeed = 0.75
 tilesPerJump = 4
 inputMaxFullHoldTime = 0.087
