@@ -136,16 +136,11 @@ func _handle_movement (_delta):
 
 	if Input.is_action_pressed("move_right") && !_locked_movement:
 		if !rightWallChecker.isGrounded:
-			if linear_velocity.x < _maxSpeed + groundCheck.measuredVelocity.x:
-				forceToApply.x += horizontalForce;
+			linear_velocity.x = _maxSpeed;
 
 	elif Input.is_action_pressed("move_left") && !_locked_movement:
 		if !leftWallChecker.isGrounded:
-			if linear_velocity.x > -_maxSpeed + groundCheck.measuredVelocity.x:
-				forceToApply.x -= horizontalForce;
-
-	if forceToApply.length() > 0:
-		apply_force(forceToApply);
+			linear_velocity.x = -_maxSpeed;
 
 	if Input.is_action_just_released("move_right") or Input.is_action_just_released("move_left"):
 		linear_velocity.x = 0;

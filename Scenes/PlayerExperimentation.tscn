@@ -88,15 +88,11 @@ physics_material_override = SubResource("PhysicsMaterial_vf1f0")
 continuous_cd = 1
 lock_rotation = true
 script = ExtResource("1_1pn2c")
-timeToMaxSpeed = 0.75
-tilesPerJump = 4
-inputMaxFullHoldTime = 0.087
 groundCheck = NodePath("GroundChecker")
 leftWallChecker = NodePath("LeftWallChecker")
 rightWallChecker = NodePath("RightWallChecker")
 ceilingChecker = NodePath("CeilingChecker")
 crosshair = NodePath("../Crosshair")
-minGrappleTileLength = 4
 
 [node name="Collider" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_k7fle")
