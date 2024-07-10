@@ -106,6 +106,7 @@ func _handle_grappling (_delta):
 				crosshair.modulate = Color(1, 1, 1);
 				_grapplePoint = result.position;
 				_grappling = true;
+				_remainingJumps = extraJumps;
 				_lock_movement(5);
 
 			else:
@@ -136,17 +137,24 @@ func _grappling_velocity ():
 func _handle_movement (_delta):
 	var movement_force_magnitude = (_maxSpeed / timeToMaxSpeed) * mass + _normalForceMagnitude;
 	var frictional_force_magnitude = _normalForceMagnitude * physics_material_override.friction;
-	var horizontalForce = movement_force_magnitude+ frictional_force_magnitude;
+	var horizontalForce = movement_force_magnitude + frictional_force_magnitude;
+	var forceToApply = Vector2(0, 0);
 
 	if Input.is_action_pressed("move_right") && !_locked_movement:
 		if !rightWallChecker.isGrounded:
-			if linear_velocity.x < _maxSpeed:
-				apply_force(Vector2(horizontalForce, 0));
+			if linear_velocity.x < (_maxSpeed + groundCheck.measuredVelocity.x):
+				forceToApply.x += horizontalForce;
 
-	if Input.is_action_pressed("move_left") && !_locked_movement:
+	elif Input.is_action_pressed("move_left") && !_locked_movement:
 		if !leftWallChecker.isGrounded:
-			if linear_velocity.x > -_maxSpeed:
-				apply_force(Vector2(-horizontalForce, 0));
+			if linear_velocity.x > -_maxSpeed + groundCheck.measuredVelocity.x:
+				forceToApply.x -= horizontalForce;
+	else:
+		if groundCheck.isGrounded && groundCheck.measuredVelocity != Vector2(0, 0):
+			linear_velocity = groundCheck.measuredVelocity;
+
+	if forceToApply.length() > 0:
+		apply_force(forceToApply);
 
 func _lock_movement (index):
 	_locked_movement |= (1 << index);
