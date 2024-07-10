@@ -107,14 +107,14 @@ func _handle_grappling (_delta):
 				crosshair.modulate = Color(1, 0, 0);
 
 			crosshair.show();
-			crosshair.set_global_position(_grapplePoint);
 	else:
 		crosshair.hide();
 		_unlock_movement(3);
 
 	if _grappling:
+		crosshair.set_global_position(_grapplePoint);
 		var touchingAnything: bool = (groundCheck.isGrounded || leftWallChecker.isGrounded || rightWallChecker.isGrounded || ceilingChecker.isGrounded);
-		if touchingAnything || !Input.is_action_pressed("move_grapple"):
+		if touchingAnything || !Input.is_action_pressed("move_grapple") || Input.is_action_pressed("move_jump"):
 			_grappling = false;
 			_unlock_movement(5);
 			_grappling = false;
@@ -124,7 +124,6 @@ func _grappling_velocity ():
 	var rotateAngle = PI/2;
 	if _grappleDir.x < 0:
 		rotateAngle = -rotateAngle;
-	print_debug(_grapplePoint);
 	var tangent = toGrapplePoint.rotated(rotateAngle);
 	return grappleSpeed * tilesize * tangent;
 
@@ -146,6 +145,9 @@ func _handle_movement (_delta):
 
 	if forceToApply.length() > 0:
 		apply_force(forceToApply);
+
+	if Input.is_action_just_released("move_right") or Input.is_action_just_released("move_left"):
+		linear_velocity.x = 0;
 
 func _lock_movement (index):
 	_locked_movement |= (1 << index);

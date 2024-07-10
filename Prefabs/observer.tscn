@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce2k61sbpf48o"]
+
+[ext_resource type="Texture2D" uid="uid://bnvca84fwsjp4" path="res://SpriteAtlas/ObserverGradient.png" id="1_l410r"]
+[ext_resource type="Script" path="res://Script/Observer.gd" id="2_js6tj"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_vrnlq"]
+
+[node name="Observer" type="MeshInstance2D" node_paths=PackedStringArray("polygonCollider")]
+position = Vector2(133, -156)
+mesh = SubResource("ImmediateMesh_vrnlq")
+texture = ExtResource("1_l410r")
+script = ExtResource("2_js6tj")
+resolution = 512
+polygonCollider = NodePath("StaticBody2D/CollisionPolygon2D")
+radius = 208.0
+minAngle = 240.0
+maxAngle = 300.0
+
+[node name="StaticBody2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(10, 0, 0, 0, 0, 10)
