@@ -122,8 +122,4 @@ script = ExtResource("8_mghfc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint"]
 position = Vector2(6, -52)
 shape = SubResource("RectangleShape2D_6i0vf")
-
-[connection signal="body_entered" from="DeathZone" to="DeathZone" method="_on_body_entered"]
-[connection signal="body_exited" from="DeathZone" to="DeathZone" method="_on_body_exited"]
-[connection signal="body_entered" from="Checkpoint" to="Checkpoint" method="_on_body_entered"]
-[connection signal="body_exited" from="Checkpoint" to="Checkpoint" method="_on_body_exited"]
+script = ExtResource("8_mghfc")

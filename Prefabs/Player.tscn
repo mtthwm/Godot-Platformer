@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxtxioyby0cyq"]
+[gd_scene load_steps=11 format=3 uid="uid://dxtxioyby0cyq"]
 
 [ext_resource type="Script" path="res://Script/PlayerMovement.gd" id="1_r3pkd"]
 [ext_resource type="Script" path="res://Script/GroundChecker.gd" id="2_p6wvx"]
 [ext_resource type="Texture2D" uid="uid://n2yioeiesti2" path="res://Sprites/Crosshairs.png" id="3_4l6a0"]
+[ext_resource type="Script" path="res://Script/CheckpointManager.gd" id="4_x7sub"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vf1f0"]
 friction = 0.5
@@ -75,6 +76,11 @@ shape = SubResource("RectangleShape2D_3npsx")
 [node name="Crosshair" type="Sprite2D" parent="."]
 position = Vector2(-72, -57)
 texture = ExtResource("3_4l6a0")
+
+[node name="CheckpointManager" type="Node2D" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("4_x7sub")
+root = NodePath("..")
+lives = 0
 
 [connection signal="body_entered" from="GroundChecker" to="GroundChecker" method="_on_body_entered"]
 [connection signal="body_exited" from="GroundChecker" to="GroundChecker" method="_on_body_exited"]

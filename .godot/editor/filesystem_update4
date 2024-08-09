@@ -1,4 +1,7 @@
+res://Script/Checkpoint.gd
+res://Script/CheckpointManager.gd
 res://Scenes/PlayerExperimentation.tscn
 res://Prefabs/Player.tscn
-res://Script/PlayerMovement.gd
 res://Prefabs/observer.tscn
+res://Script/DeathZone.gd
+res://Script/CameraFollow.gd
