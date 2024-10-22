@@ -18,6 +18,7 @@ extends RigidBody2D
 @export var crosshair: Node2D;
 @export var grappleSpeed = 16;
 @export var minGrappleTileLength = 2
+@export var maxGrappleAngle = 70;
 
 enum MOVE_LOCK_TYPE {
 	BOTH,
@@ -41,6 +42,7 @@ var _maxHorizontalForce;
 var _remainingJumps: int;
 var _timeSincePress = 0;
 var _hasJumpedThisButtonPress = false;
+var _hasGrappledThisButtonPress = false;
 var _hasWallJumped = false;
 var _wallTimer = CooldownTimer.new(0.4);
 
@@ -135,10 +137,11 @@ func _handle_grappling (_delta):
 			var query = PhysicsRayQueryParameters2D.create(global_position, _grapplePoint);
 			var result = space_state.intersect_ray(query);
 
-			if result && position.distance_to(result.position) > minGrappleTileLength * tilesize:
+			if !_hasGrappledThisButtonPress && result && position.distance_to(result.position) > minGrappleTileLength * tilesize:
 				crosshair.modulate = Color(1, 1, 1);
 				_grapplePoint = result.position;
 				_grappling = true;
+				_hasGrappledThisButtonPress = true;
 				_remainingJumps = extraJumps;
 				_lock_movement(5, MOVE_LOCK_TYPE.BOTH);
 
@@ -149,11 +152,15 @@ func _handle_grappling (_delta):
 	else:
 		crosshair.hide();
 		_unlock_movement(3, MOVE_LOCK_TYPE.BOTH);
+		_hasGrappledThisButtonPress = false;
 
 	if _grappling:
 		crosshair.set_global_position(_grapplePoint);
 		var touchingAnything: bool = (groundCheck.isGrounded || leftWallChecker.isGrounded || rightWallChecker.isGrounded || ceilingChecker.isGrounded);
-		if touchingAnything || !Input.is_action_pressed("move_grapple") || Input.is_action_pressed("move_jump"):
+		var grappleAngle = abs(Vector2.UP.angle_to((_grapplePoint - global_position).normalized()));
+		print_debug(rad_to_deg(grappleAngle));
+		var maxAngleExceeded = grappleAngle > deg_to_rad(maxGrappleAngle);
+		if maxAngleExceeded || touchingAnything || !Input.is_action_pressed("move_grapple") || Input.is_action_pressed("move_jump"):
 			_grappling = false;
 			_unlock_movement(5, MOVE_LOCK_TYPE.BOTH);
 			_grappling = false;
