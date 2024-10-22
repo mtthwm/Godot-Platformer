@@ -18,10 +18,10 @@ height = 16.0
 size = Vector2(12, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kupmo"]
-size = Vector2(1.5, 15)
+size = Vector2(1.75, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52jr2"]
-size = Vector2(1.5, 15)
+size = Vector2(1.75, 15)
 
 [node name="Player" type="RigidBody2D" node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker", "ceilingChecker", "crosshair")]
 position = Vector2(0, -32)
@@ -29,7 +29,7 @@ physics_material_override = SubResource("PhysicsMaterial_vf1f0")
 continuous_cd = 1
 lock_rotation = true
 script = ExtResource("1_r3pkd")
-groundCheck = NodePath("GroundChecker")
+groundCheck = NodePath("Area2D")
 leftWallChecker = NodePath("LeftWallChecker")
 rightWallChecker = NodePath("RightWallChecker")
 ceilingChecker = NodePath("CeilingChecker")
@@ -44,10 +44,10 @@ position = Vector2(0, -4.76837e-07)
 scale = Vector2(16, 16)
 texture = SubResource("CanvasTexture_wjtec")
 
-[node name="GroundChecker" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("2_p6wvx")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundChecker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8.5)
 shape = SubResource("RectangleShape2D_3npsx")
 
@@ -55,15 +55,14 @@ shape = SubResource("RectangleShape2D_3npsx")
 script = ExtResource("2_p6wvx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWallChecker"]
-position = Vector2(9, -0.5)
+position = Vector2(9.125, -0.5)
 shape = SubResource("RectangleShape2D_kupmo")
-disabled = true
 
 [node name="LeftWallChecker" type="Area2D" parent="."]
 script = ExtResource("2_p6wvx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWallChecker"]
-position = Vector2(-9, -0.5)
+position = Vector2(-9.125, -0.5)
 shape = SubResource("RectangleShape2D_52jr2")
 
 [node name="CeilingChecker" type="Area2D" parent="."]
@@ -82,8 +81,8 @@ script = ExtResource("4_x7sub")
 root = NodePath("..")
 lives = 0
 
-[connection signal="body_entered" from="GroundChecker" to="GroundChecker" method="_on_body_entered"]
-[connection signal="body_exited" from="GroundChecker" to="GroundChecker" method="_on_body_exited"]
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]
 [connection signal="body_entered" from="RightWallChecker" to="RightWallChecker" method="_on_body_entered"]
 [connection signal="body_exited" from="RightWallChecker" to="RightWallChecker" method="_on_body_exited"]
 [connection signal="body_entered" from="LeftWallChecker" to="LeftWallChecker" method="_on_body_entered"]
