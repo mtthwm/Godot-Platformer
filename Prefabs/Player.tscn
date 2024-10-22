@@ -73,6 +73,7 @@ position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_3npsx")
 
 [node name="Crosshair" type="Sprite2D" parent="."]
+z_index = 1000
 position = Vector2(-72, -57)
 texture = ExtResource("3_4l6a0")
 

@@ -4,3 +4,5 @@ res://Prefabs/observer.tscn
 res://Script/PlayerMovement.gd
 res://Script/CooldownTimer.gd
 res://Script/GroundChecker.gd
+res://Script/AdvancedInput.gd
+res://Script/InputActions.gd

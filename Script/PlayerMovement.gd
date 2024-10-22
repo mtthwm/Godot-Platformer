@@ -118,6 +118,27 @@ func _handle_jump (delta):
 	if Input.is_action_just_released("move_jump"):
 		_hasJumpedThisButtonPress = false;
 
+func _cast_grapple_ray ():
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsRayQueryParameters2D.create(global_position, _grapplePoint);
+	var result = space_state.intersect_ray(query);
+	return result;
+
+func _is_within_grapple_range (grapplePoint):
+	return position.distance_to(grapplePoint) > minGrappleTileLength * tilesize
+
+func _handle_crosshair (grappleRayResult: Dictionary):
+	
+	if !_grappling:
+		if grappleRayResult && _is_within_grapple_range(grappleRayResult.position):
+			crosshair.set_global_position(grappleRayResult.position);
+			crosshair.show();
+		else:
+			crosshair.hide();
+	else:
+		crosshair.set_global_position(_grapplePoint);
+	
+
 func _handle_grappling (_delta):
 	if Input.is_action_pressed("move_right"):
 		_grappleDir = Vector2(0.5, -1).normalized()
@@ -129,33 +150,24 @@ func _handle_grappling (_delta):
 		_grappleDir = _grappleDir.normalized();
 		_grapplePoint = global_position + _grappleDir * grappleLengthTiles * tilesize;
 
+	var grappleRayResult = _cast_grapple_ray();
+	_handle_crosshair(grappleRayResult);
+
 	if Input.is_action_pressed("move_grapple"):
 		_lock_movement(3, MOVE_LOCK_TYPE.BOTH);
 		
 		if !_grappling:
-			var space_state = get_world_2d().direct_space_state
-			var query = PhysicsRayQueryParameters2D.create(global_position, _grapplePoint);
-			var result = space_state.intersect_ray(query);
-
-			if !_hasGrappledThisButtonPress && result && position.distance_to(result.position) > minGrappleTileLength * tilesize:
-				crosshair.modulate = Color(1, 1, 1);
-				_grapplePoint = result.position;
+			if !_hasGrappledThisButtonPress && grappleRayResult && _is_within_grapple_range(grappleRayResult.position):
+				_grapplePoint = grappleRayResult.position;
 				_grappling = true;
 				_hasGrappledThisButtonPress = true;
 				_remainingJumps = extraJumps;
 				_lock_movement(5, MOVE_LOCK_TYPE.BOTH);
-
-			else:
-				crosshair.modulate = Color(1, 0, 0);
-
-			crosshair.show();
 	else:
-		crosshair.hide();
 		_unlock_movement(3, MOVE_LOCK_TYPE.BOTH);
 		_hasGrappledThisButtonPress = false;
 
 	if _grappling:
-		crosshair.set_global_position(_grapplePoint);
 		var touchingAnything: bool = (groundCheck.isGrounded || leftWallChecker.isGrounded || rightWallChecker.isGrounded || ceilingChecker.isGrounded);
 		var grappleAngle = abs(Vector2.UP.angle_to((_grapplePoint - global_position).normalized()));
 		print_debug(rad_to_deg(grappleAngle));
