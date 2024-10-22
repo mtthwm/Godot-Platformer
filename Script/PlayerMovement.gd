@@ -20,6 +20,10 @@ extends RigidBody2D
 @export var minGrappleTileLength = 2
 @export var maxGrappleAngle = 70;
 
+@export_group("Diving")
+@export var verticalTiles = 1;
+@export var horizontalTilesPerSec = 4;
+
 enum MOVE_LOCK_TYPE {
 	BOTH,
 	LEFT,
@@ -45,6 +49,8 @@ var _hasJumpedThisButtonPress = false;
 var _hasGrappledThisButtonPress = false;
 var _hasWallJumped = false;
 var _wallTimer = CooldownTimer.new(0.4);
+
+var _remainingDives: int;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -107,9 +113,6 @@ func _handle_jump (delta):
 	if Input.is_action_just_pressed("move_jump"):
 		_timeSincePress = 0;
 
-	if _can_wall_jump():
-		print_debug("CAN WALL JUMP");
-
 	if _can_wall_jump() and _should_jump():
 		_do_wall_jump();
 	elif  _can_jump() and _should_jump():
@@ -170,7 +173,6 @@ func _handle_grappling (_delta):
 	if _grappling:
 		var touchingAnything: bool = (groundCheck.isGrounded || leftWallChecker.isGrounded || rightWallChecker.isGrounded || ceilingChecker.isGrounded);
 		var grappleAngle = abs(Vector2.UP.angle_to((_grapplePoint - global_position).normalized()));
-		print_debug(rad_to_deg(grappleAngle));
 		var maxAngleExceeded = grappleAngle > deg_to_rad(maxGrappleAngle);
 		if maxAngleExceeded || touchingAnything || !Input.is_action_pressed("move_grapple") || Input.is_action_pressed("move_jump"):
 			_grappling = false;
@@ -231,14 +233,34 @@ func _handle_swing (_delta):
 	else:
 		gravity_scale = 1;
 
+func _can_dive ():
+	return Input.is_action_just_pressed("move_dive") && _remainingDives > 0 && !groundCheck.isGrounded;
+
+func _do_dive ():
+	if Input.is_action_pressed("move_left"):
+		print_debug("DIVING LEFT");
+		linear_velocity.x -= horizontalTilesPerSec * tilesize;
+	elif Input.is_action_pressed("move_right"):
+		linear_velocity.x += horizontalTilesPerSec * tilesize;
+
+	if Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"):
+		linear_velocity.y = -_distance_to_velocity(verticalTiles * tilesize, _weight);
+		_remainingDives -= 1;
+
+
+func _handle_diving(_delta):
+	if _can_dive():
+		_do_dive();
+
+	if groundCheck.isGrounded:
+		_remainingDives = 1;
 
 func _physics_process(delta):
 	_wallTimer.run_timer(delta);
-
-	if _should_jump():
-		print_debug("SHOULD JUMP!");
 
 	_handle_movement(delta);
 	_handle_jump(delta);
 	_handle_grappling(delta);
 	_handle_swing(delta);
+	_handle_diving(delta);
+
