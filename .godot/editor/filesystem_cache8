@@ -1,24 +1,26 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1729568621
+::res://::1729640440
 icon.svg::CompressedTexture2D::5016668207998830212::1714487715::1714487731::1::::<><>::
-::res://Prefabs/::1727405208
-observer.tscn::PackedScene::5109998864315956892::1727405208::0::1::::<><>::uid://bnvca84fwsjp4
-Player.tscn::PackedScene::8814240181746752816::1727405208::0::1::::<><>::res://Script/PlayerMovement.gd<>res://Script/GroundChecker.gd<>uid://n2yioeiesti2
-::res://Scenes/::1727658528
-PlayerExperimentation.tscn::PackedScene::8348385376562914446::1727658528::0::1::::<><>::uid://dxtxioyby0cyq::::res://Prefabs/Player.tscn<>uid://b8754c7ftkswr::::res://SpriteAtlas/DebugTilemap.png<>res://Script/CameraFollow.gd<>uid://cxghfvvrcibe::::res://SpriteAtlas/Watermelon Grass.png<>uid://ce2k61sbpf48o::::res://Prefabs/observer.tscn<>res://Script/DeathZone.gd<>res://Script/Checkpoint.gd<>uid://dhpmjx4ltupl8::::res://Sprites/Platform.png<>res://Script/MovingPlatform.gd
-::res://Script/::1720664170
+::res://Prefabs/::1729640085
+observer.tscn::PackedScene::5109998864315956892::1729622187::0::1::::<><>::uid://bnvca84fwsjp4::::res://SpriteAtlas/ObserverGradient.png<>res://Script/Observer.gd
+Player.tscn::PackedScene::8814240181746752816::1729640085::0::1::::<><>::res://Script/PlayerMovement.gd<>res://Script/GroundChecker.gd<>uid://n2yioeiesti2::::res://Sprites/Crosshairs.png<>res://Script/CheckpointManager.gd
+::res://Scenes/::1729622187
+PlayerExperimentation.tscn::PackedScene::8348385376562914446::1729622187::0::1::::<><>::uid://dxtxioyby0cyq::::res://Prefabs/Player.tscn<>uid://b8754c7ftkswr::::res://SpriteAtlas/DebugTilemap.png<>res://Script/CameraFollow.gd<>uid://cxghfvvrcibe::::res://SpriteAtlas/Watermelon Grass.png<>uid://ce2k61sbpf48o::::res://Prefabs/observer.tscn<>res://Script/DeathZone.gd<>res://Script/Checkpoint.gd<>uid://dhpmjx4ltupl8::::res://Sprites/Platform.png<>res://Script/MovingPlatform.gd
+::res://Script/::1729618049
 CameraFollow.gd::GDScript::-1::1723112011::0::1::::<>Node2D<>::
 Checkpoint.gd::GDScript::-1::1720664172::0::1::::Checkpoint<>Area2D<>::
 CheckpointManager.gd::GDScript::-1::1723113262::0::1::::CheckpointManager<>Node2D<>::
+CooldownTimer.gd::GDScript::-1::1729571416::0::1::::CooldownTimer<>Object<>::
 DeathZone.gd::GDScript::-1::1723112211::0::1::::<>Area2D<>::
 GroundChecker.gd::GDScript::-1::1720542896::0::1::::GroundChecker<>Area2D<>::
 MovingPlatform.gd::GDScript::-1::1720542245::0::1::::<>RigidBody2D<>::
 Observer.gd::GDScript::-1::1720631917::0::1::::<>MeshInstance2D<>::
-PlayerMovement.gd::GDScript::-1::1720593120::0::1::::<>RigidBody2D<>::
+PlayerMovement.gd::GDScript::-1::1729622184::0::1::::<>RigidBody2D<>::
 ::res://SpriteAtlas/::1727644228
 DebugTilemap.png::CompressedTexture2D::4770586064417742181::1714493064::1714493064::1::::<><>::
 ObserverGradient.png::CompressedTexture2D::3342350796135488015::1714540731::1714540938::1::::<><>::
 Watermelon Grass.png::CompressedTexture2D::188235474167965638::1727644228::1727644228::1::::<><>::
-::res://Sprites/::1720414225
+::res://Sprites/::1729640440
 Crosshairs.png::CompressedTexture2D::969665402707347399::1715806613::1715806613::1::::<><>::
 Platform.png::CompressedTexture2D::7682295552277133379::1720414225::1720414225::1::::<><>::
+RacoonRunV1.png::CompressedTexture2D::7156393640765767986::1729640329::1729640455::1::::<><>::

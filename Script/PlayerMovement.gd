@@ -52,6 +52,8 @@ var _wallTimer = CooldownTimer.new(0.4);
 
 var _remainingDives: int;
 
+var _wasJustGrappling = false;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_maxSpeed = tilesPerSecondSpeed * tilesize;
@@ -153,6 +155,9 @@ func _handle_grappling (_delta):
 		_grappleDir = _grappleDir.normalized();
 		_grapplePoint = global_position + _grappleDir * grappleLengthTiles * tilesize;
 
+	if groundCheck.isGrounded:
+		_wasJustGrappling = false;
+
 	var grappleRayResult = _cast_grapple_ray();
 	_handle_crosshair(grappleRayResult);
 
@@ -163,6 +168,7 @@ func _handle_grappling (_delta):
 			if !_hasGrappledThisButtonPress && grappleRayResult && _is_within_grapple_range(grappleRayResult.position):
 				_grapplePoint = grappleRayResult.position;
 				_grappling = true;
+				_wasJustGrappling = true;
 				_hasGrappledThisButtonPress = true;
 				_remainingJumps = extraJumps;
 				_lock_movement(5, MOVE_LOCK_TYPE.BOTH);
@@ -210,7 +216,9 @@ func _handle_movement (_delta):
 	if forceToApply.length() > 0:
 		apply_force(forceToApply);
 
-	if !_locked_either_movement() && (Input.is_action_just_released("move_right") or Input.is_action_just_released("move_left")):
+	print_debug(_wasJustGrappling);
+
+	if !_wasJustGrappling && !_locked_either_movement() && !(Input.is_action_pressed("move_right") or Input.is_action_pressed("move_left")):
 		linear_velocity.x = 0;
 
 func _lock_movement (index, type):
@@ -238,7 +246,6 @@ func _can_dive ():
 
 func _do_dive ():
 	if Input.is_action_pressed("move_left"):
-		print_debug("DIVING LEFT");
 		linear_velocity.x -= horizontalTilesPerSec * tilesize;
 	elif Input.is_action_pressed("move_right"):
 		linear_velocity.x += horizontalTilesPerSec * tilesize;

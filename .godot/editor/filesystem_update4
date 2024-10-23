@@ -6,3 +6,5 @@ res://Script/CooldownTimer.gd
 res://Script/GroundChecker.gd
 res://Script/AdvancedInput.gd
 res://Script/InputActions.gd
+res://Script/PlayerAnimationManager.gd
+res://Scenes/DBG-1-1.tscn

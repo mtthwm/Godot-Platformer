@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxtxioyby0cyq"]
+[gd_scene load_steps=23 format=3 uid="uid://dxtxioyby0cyq"]
 
 [ext_resource type="Script" path="res://Script/PlayerMovement.gd" id="1_r3pkd"]
 [ext_resource type="Script" path="res://Script/GroundChecker.gd" id="2_p6wvx"]
+[ext_resource type="Texture2D" uid="uid://c87u005xoauba" path="res://Sprites/RacoonRunV1.png" id="2_qtyvc"]
 [ext_resource type="Texture2D" uid="uid://n2yioeiesti2" path="res://Sprites/Crosshairs.png" id="3_4l6a0"]
 [ext_resource type="Script" path="res://Script/CheckpointManager.gd" id="4_x7sub"]
+[ext_resource type="Script" path="res://Script/PlayerAnimationManager.gd" id="6_3q0xu"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vf1f0"]
 friction = 0.5
@@ -11,8 +13,6 @@ friction = 0.5
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k7fle"]
 radius = 8.0
 height = 16.0
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_wjtec"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3npsx"]
 size = Vector2(12, 1)
@@ -22,6 +22,89 @@ size = Vector2(1.75, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52jr2"]
 size = Vector2(1.75, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u48ne"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(0, 0, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ue1sm"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(3508, 0, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdfv2"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(7016, 0, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twegw"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(10524, 0, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xktnd"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(0, 2480, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5h76c"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(3508, 2480, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yel38"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(7016, 2480, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uetwd"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(10524, 2480, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5vp4"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(0, 4960, 3508, 2480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_820ca"]
+atlas = ExtResource("2_qtyvc")
+region = Rect2(3508, 4960, 3508, 2480)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_24ocu"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u48ne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue1sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cdfv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twegw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xktnd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5h76c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yel38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uetwd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5vp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_820ca")
+}],
+"loop": true,
+"name": &"run",
+"speed": 24.0
+}]
 
 [node name="Player" type="RigidBody2D" node_paths=PackedStringArray("groundCheck", "leftWallChecker", "rightWallChecker", "ceilingChecker", "crosshair")]
 position = Vector2(0, -32)
@@ -37,12 +120,6 @@ crosshair = NodePath("Crosshair")
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_k7fle")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.74902, 0.996078, 0.776471, 1)
-position = Vector2(0, -4.76837e-07)
-scale = Vector2(16, 16)
-texture = SubResource("CanvasTexture_wjtec")
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("2_p6wvx")
@@ -81,6 +158,14 @@ texture = ExtResource("3_4l6a0")
 script = ExtResource("4_x7sub")
 root = NodePath("..")
 lives = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3, 4)
+scale = Vector2(0.875, 1)
+sprite_frames = SubResource("SpriteFrames_24ocu")
+animation = &"run"
+frame_progress = 0.0286558
+script = ExtResource("6_3q0xu")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]

@@ -1,13 +1,14 @@
+Camera2D
+AnimatedSprite2D
+AnimationPlayer
 Node2D
 CollisionShape2D
 Area2D
 StaticBody2D
 CollisionPolygon2D
 RigidBody2D
-AnimationPlayer
 Sprite2D
 Node
 GroundChecker
 MeshInstance2D
 TileMap
-Camera2D
